@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NIGHT GLITCH CRASHER</title>
+
+    <style>
+        * {
+            margin: 0; padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #000;
+            overflow: hidden;
+            user-select: none;
+        
+        
+        }
+
+        /* LOGIN BOX */
+        .login-container {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 350px; padding: 40px;
+            border-radius: 20px;
+            background: rgba(200,200,200,0.05);
+            border: 3px solid rgba(150,150,150,0.4);
+            backdrop-filter: blur(8px);
+            box-shadow: 0 0 25px #666;
+            animation: boxPulse 3s infinite;
+            z-index: 5;
+        }
+
+        @keyframes boxPulse {
+            0% { box-shadow: 0 0 10px #555; }
+            50% { box-shadow: 0 0 40px #888; }
+            100% { box-shadow: 0 0 10px #555; }
+        }
+
+        .title {
+            text-align: center;
+            color: #d0d0d0;
+            font-size: 24px;
+            letter-spacing: 2px;
+            margin-bottom: 18px;
+            text-shadow: 0 0 15px #aaa;
+            animation: glitchText 2s infinite;
+        }
+
+        @keyframes glitchText {
+            0% { text-shadow: 0 0 10px #888; }
+            20% { text-shadow: -2px 0 #ccc, 2px 0 #444; }
+            40% { text-shadow: 0 0 25px #aaa; }
+            60% { text-shadow: 2px 0 #ccc, -2px 0 #555; }
+            100% { text-shadow: 0 0 10px #888; }
+        }
+
+        /* LOGO BLENDED */
+        .logo-wrapper {
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+            position: relative;
+        }
+
+        .logo {
+            width: 150px;
+            height: 150px;
+            background: url('https://files.catbox.moe/6hzdw5.png') center/contain no-repeat;
+            filter: grayscale(100%) brightness(0.7) contrast(1.2)
+                    drop-shadow(0 0 20px #777);
+            opacity: 0.8;
+            mix-blend-mode: screen;
+            pointer-events: none;
+            animation: logoGlitch 3s infinite;
+        }
+
+        @keyframes logoGlitch {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        /* ANTI KLIK FILE LOGO */
+        .protector {
+            position: absolute;
+            width: 100%; height: 100%;
+            top: 0; left: 0;
+            pointer-events: auto;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-top: 12px;
+            border-radius: 25px;
+            background: rgba(255,255,255,0.06);
+            border: 1px solid #777;
+            color: white;
+            font-size: 14px;
+        }
+
+        input::placeholder { color: #999; }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 25px;
+            background: #888;
+            border: none;
+            color: black;
+            font-weight: 600;
+            font-size: 16px;
+            box-shadow: 0 0 15px #666;
+        }
+
+        button:hover {
+            background: #aaa;
+            box-shadow: 0 0 25px #aaa;
+        }
+
+        .error {
+            color: #ff4444;
+            text-align: center;
+            margin-top: 10px;
+            display: none;
+        }
+
+        /* FAKE ANTI SCREENSHOT */
+        #blackout {
+            position: fixed;
+            width: 100%; height: 100%;
+            background: black;
+            opacity: 0;
+            pointer-events: none;
+            transition: 0.2s;
+            z-index: 999;
+        }
+
+        /* GLITCH EFFECT KETIKA LOGIN */
+        .login-effect {
+            position: fixed;
+            width: 100%; height: 100%;
+            background: url('https://files.catbox.moe/dcqg5u.mp4');
+            background-size: cover;
+            opacity: 0;
+            animation: glitchScreen 0.8s forwards;
+            pointer-events: none;
+            z-index: 900;
+        }
+
+        @keyframes glitchScreen {
+            0% { opacity: 0; }
+            20% { opacity: 1; }
+            50% { opacity: 0.6; }
+            70% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        @keyframes screenShake {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(5px, -5px); }
+            40% { transform: translate(-5px, 5px); }
+            60% { transform: translate(5px, 5px); }
+            80% { transform: translate(-5px, -5px); }
+            100% { transform: translate(0, 0); }
+        }
+    </style>
+</head>
+
+<body oncontextmenu="return false">
+
+    <div class="bg-glitch"></div>
+    <div id="blackout"></div>
+
+    <div class="login-container">
+
+        <h2 class="title">NIGHT GLITCH CRASHER</h2>
+
+        <div class="logo-wrapper">
+            <div class="logo"></div>
+            <div class="protector"></div>
+        </div>
+
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+
+        <button onclick="login()">Masuk</button>
+        <p class="error" id="error">Username / Password salah!</p>
+
+    </div>
+
+    <script>
+        /* Fake anti screenshot */
+        document.addEventListener("keydown", e => {
+            if (e.key === "PrintScreen") {
+                let blackout = document.getElementById("blackout");
+                blackout.style.opacity = "1";
+                setTimeout(() => blackout.style.opacity = "0", 500);
+            }
+        });
+
+        function login() {
+            let user = document.getElementById("username").value;
+            let pass = document.getElementById("password").value;
+
+            if (user === "RafzzOnly" && pass === "Rafzz202") {
+
+                let effect = document.createElement("div");
+                effect.className = "login-effect";
+                document.body.appendChild(effect);
+
+                document.body.style.animation = "screenShake 0.6s";
+
+                setTimeout(() => {
+                    window.location.href = "index.html";
+                }, 1500);
+
+            } else {
+                document.getElementById("error").style.display = "block";
+            }
+        }
+    </script>
+
+</body>
+</html>
